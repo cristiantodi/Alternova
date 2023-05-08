@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="{% static 'admin/css/bootstrap.css' %}" rel="stylesheet">
+</head>
+<body>
+    <ol class="breadcrumb">
+        <div  class="word-car-login">
+            {% if user.is_authenticated %}
+                {{user.username}} <a class="word-car-login" href="#"> Cerrar sesion</a>
+            {% else %}
+                <li class="breadcrumb-item"><a class="word-car-login" href="{% url 'login' %}"> Login </a></li>
+                <li class="breadcrumb-item"><a class="word-car-login" href="{% url 'Autenticacion' %}"> Registrar </a></li>
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Library</li>
+            {% endif %}
+        </div>
+    </ol>
+      
+    <table class="table table-bordered">
+        <thead>
+            <td>Id</td>
+            <td>Nombre</td>
+            <td>Foto</td>
+            <td>Tipo</td>
+            <td>Categoria</td>
+            <td>Calificacion</td>
+        </thead>
+        <tbody>
+            {% for peli in detalle  %}
+            <tr>
+                <td>{{ peli.id }}</td>
+                <td>{{ peli.title }}</td>
+                <td>
+                    <img style="width: 3rem; height: 4rem" href="{{peli.miniature.url}}" title="{{peli.title}}" src="{{peli.miniature.url}}">
+                </td>
+                <td>{{ peli.tipo }}</td>
+                
+                    {% for cate in peli.category.all  %}
+                        <td><a href="{% url 'cate' cate.id %}">{{ cate.categorys }}></a></td>
+                    {% endfor %}
+                <td>{{ peli.category }}</td>
+                <td>{{ peli.product }}</td>
+            </tr>
+            
+            {% endfor %}
+
+           
+        </tbody>
+    </table>
+</body>
+</html>
